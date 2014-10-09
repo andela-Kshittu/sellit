@@ -13,7 +13,7 @@ var ProductSchema = new Schema({
 	name: {
 		type: String,
 		default: '',
-		// required: 'Please fill Product name',
+		required: 'Please fill Product name',
 		trim: true
 	},
 	created: {
@@ -23,29 +23,48 @@ var ProductSchema = new Schema({
 	description: {
 		type: String,
 		default: '',
-		trim: true
-		// required: 'Description cannot be blank'
+		trim: true,
+		required: 'Description cannot be blank'
 	},
 	photo: {
-		type: String
-		// required: 'Description cannot be blank'
+		type: String,
+		required: 'Description cannot be blank'
+	},
+	cost: {
+		type: String,
+		required: 'Price field cannot be blank'
+	},
+	quantity: {
+		type: String,
+		required: 'Quantity field cannot be blank'
+	},
+	negotiable: {
+		type: String,
+		required: 'Negotiation cannot be blank'
 	},
 	location: {
 		type:String,
 		default:'',
-		trim: true
-		// required: 'location cannot be blank'
+		trim: true,
+		required: 'location cannot be blank'
 	},
 	phone_number: {
 		type: String,
 		default:'',
-		trim: true
-		// required: 'Phone Number cannot be blank'
+		trim: true,
+		required: 'Phone Number cannot be blank'
 	},
 	category:{
 		type: String,
 		default:'',
 		trim: true
+	},
+	comments:{
+
+	},
+	likes:{
+		type: Number,
+		default: 0,
 	},
 	user: {
 		type: Schema.ObjectId,

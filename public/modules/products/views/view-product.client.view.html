@@ -1,6 +1,6 @@
 <section data-ng-controller="ProductsController" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1 data-ng-bind="product.name"></h1>
+		<h1 data-ng-bind="product.name"></h1>{{product._id}}
 	</div>
 	<div class="pull-right" data-ng-show="authentication.user._id == product.user._id">
 		<a class="btn btn-primary" href="/#!/products/{{product._id}}/edit">
@@ -18,4 +18,13 @@
 			<span data-ng-bind="product.user.displayName"></span>
 		</em>
 	</small>
+	<form data-ng-submit="addComment(product._id)">
+		<textarea data-ng-model="post"></textarea>
+		<input type="submit" value="Add Comment">
+	</form>
+	<div data-ng-repeat="comment in comments" data-ng-show="product._id == comment.productID">
+		<span>{{comment.post}}</span>
+		<input type="button" value="like" data-ng-click="likePost(comment)" data-ng-show="comment.showlike">
+		<span>&nbsp{{comment.like}} like(s)</span>
+	</div>
 </section>

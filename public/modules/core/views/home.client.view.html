@@ -4,6 +4,11 @@
 			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
 				<img alt="MEAN.JS" class="img-responsive text-center" src="modules/core/img/brand/logo.png" />
 			</div>
+			<div data-ng-controller="ProductsController">
+				<form class="form-vertical" data-ng-submit="find()">
+				<input type="text" data-ng-model="searchQuery">&nbsp<input type="submit">
+				</form>
+			</div>
 		</div>
 		<br>
 		<div class="row">

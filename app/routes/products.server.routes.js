@@ -13,7 +13,11 @@ module.exports = function(app) {
 		.get(products.read)
 		.put(users.requiresLogin, products.hasAuthorization, products.update)
 		.delete(users.requiresLogin, products.hasAuthorization, products.delete);
+	app.route('/search').get(products.search);
+	// app.route('/products/Categories/:catName')
+	// 	.get(products.getCategories);
 
 	// Finish by binding the Product middleware
 	app.param('productId', products.productByID);
+	// app.param('catName', products.productByCAT);
 };

@@ -54,3 +54,12 @@ exports.update = function(req, res) {
 exports.me = function(req, res) {
 	res.jsonp(req.user || null);
 };
+
+/**
+ * Send User Products
+ */
+
+// exports.myproduct = function(req, res){
+// 	res.jsonp()
+
+// };
