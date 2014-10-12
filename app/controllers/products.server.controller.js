@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Product = mongoose.model('Product'),
+	Comment = mongoose.model('Comment'),
 	_ = require('lodash');
 
 	var uuid = require('node-uuid'),
@@ -83,11 +84,16 @@ exports.create = function(req, res) {
 		        // uuid is for generating unique filenames. 
 		        var fileName = uuid.v4() + extension;
 		        var destPath = 'public/modules/core/img/server/Temp/' + fileName;
+		        var realPath = 'modules/core/img/server/Temp/' + fileName;
 	    	}
 
 	        var product = new Product(fields);
 				product.user = req.user;
-				product.photo = destPath;
+				// var path = destPath.lastIndexOf('.');
+				// var passedPath= (path < 0) ? '' : destPath.substr(path);
+				// var photoPath = uuid.v4() + passedPath;
+				// product.photo = photoPath;
+				product.photo = realPath;
 
 		product.save(function(err) {
 			if (err) {
@@ -111,6 +117,9 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
 	res.jsonp(req.product);
 };
+exports.readComment = function(req, res) {
+	res.jsonp(req.comment);
+};
 // exports.getCategories = function(req, res) {
 // 	res.jsonp(req.product);
 // };
@@ -132,6 +141,23 @@ exports.update = function(req, res) {
 		}
 	});
 };
+
+exports.updateComment = function(req, res) {
+	var comment = req.comment ;
+
+	comment = _.extend(comment , req.body);
+
+	comment.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(comment);
+		}
+	});
+};
+
 
 /**
  * Delete an Product
@@ -164,13 +190,63 @@ exports.list = function(req, res) { Product.find().sort('-created').populate('us
 	});
 };
 
-exports.productByID = function(req, res, next, id) { Product.findById(id).populate('user', 'displayName').exec(function(err, product) {
+exports.productByID = function(req, res, next, id) { Product.findById(id).populate('user', 'displayName').populate('comments').exec(function(err, product) {
 		if (err) return next(err);
 		if (! product) return next(new Error('Failed to load Product ' + id));
 		// console.log(req.product);
 		req.product = product ;
 		next();
 	});
+};
+
+exports.commentByID = function(req, res, next, id) { Comment.findById(id).populate('product', 'name').exec(function(err, comment) {
+		if (err) return next(err);
+		if (! comment) return next(new Error('Failed to load Comment ' + id));
+		// console.log(req.product);
+		req.comment = comment;
+		next();
+	});
+};
+
+exports.like = function(req, res, next) { 
+	req.product.like(function(err, product){
+   	if (err) { return next(err); }
+    res.json(product);
+  });
+};
+exports.dislike = function(req, res, next) { 
+	req.product.dislike(function(err, product){
+   	if (err) { return next(err); }
+    res.json(product);
+  });
+};
+exports.commentLike = function(req, res, next) { 
+	req.comment.like(function(err, comment){
+   	if (err) { return next(err); }
+    res.json(comment);
+  });
+};
+exports.commentdisLike = function(req, res, next) { 
+	req.comment.dislike(function(err, comment){
+   	if (err) { return next(err); }
+    res.json(comment);
+  });
+};
+
+exports.comments = function(req, res, next) { 
+	var comment = new Comment(req.body);
+  	comment.product = req.product;
+
+  comment.save(function(err, comment){
+    if(err){ return next(err); }
+
+    req.product.comments.push(comment);
+    req.product.save(function(err, product) {
+      if(err){ return next(err); }
+
+      res.json(comment);
+    });
+  });
 };
 
 exports.search = function(req,res){	
@@ -183,13 +259,21 @@ exports.search = function(req,res){
 		if (req.query.category && req.query.category.length > 1){
 			$or.$or.push({category: new RegExp(req.query.category)});
 		}
-		if(req.query.title && req.query.title.length>1)
+		else if(req.query.name && req.query.name.length>1)
 		{
-			$or.$or.push({title:new RegExp(req.query.title)});
+			$or.$or.push({name:new RegExp(req.query.name)});
 		}
-		if(req.query.price && req.query.price.length>1)
+		else if(req.query.description && req.query.description.length>1)
 		{
-			$or.$or.push({price:new RegExp(req.query.price)});
+			$or.$or.push({description:new RegExp(req.query.description)});
+		}
+		else if(req.query.cost && req.query.cost.length>1)
+		{
+			$or.$or.push({cost:new RegExp(req.query.cost)});
+		}
+		else if(req.query.negotiable && req.query.negotiable.length>1)
+		{
+			$or.$or.push({negotiable:new RegExp(req.query.negotiable)});
 		}
 	};
 	checkQuery();
@@ -204,59 +288,6 @@ exports.search = function(req,res){
 		}
 	});
 };
-// exports.search = function(req,res){	
-
-// 	var queryHolder = {
-// 		queryType:[]
-// 	};
-// 	var checkQuery = function(){
-// 		if (req.query.q&&req.query.q.length >0){
-// 			queryHolder.queryType.push({name : new RegExp(req.query.q, 'i')});
-// 		}
-// 		if (req.query.category && req.query.category.length > 1){
-// 			queryHolder.queryType.push({category: new RegExp(req.query.category)});
-// 		}
-// 		if(req.query.title && req.query.title.length>1)
-// 		{
-// 			queryHolder.queryType.push({title:new RegExp(req.query.title)});
-// 		}
-// 		if(req.query.price && req.query.price.length>1)
-// 		{
-// 			queryHolder.queryType.push({price:new RegExp(req.query.price)});
-// 		}
-// 	};
-// 	checkQuery();
-// 	Product.find(req.query.queryHolder.queryType).exec(function(err, data){
-// 		if(err) {
-// 			return res.status(400).send({
-// 				message: errorHandler.getErrorMessage(err)
-// 			});
-// 		} else {
-// 			res.jsonp(data);
-// 			console.log(req.body);
-// 		}
-// 	});
-// };
-// exports.search = function() {
-// 	var queryHolder ={queryType:[]};
-// 	var checkQuery = function(req, res){
-// 		if (req.query.category && req.query.category.length > 0)
-// 			{ queryHolder.queryType.push(req.query.category)}
-// 		else if (req.query.name && req.query.name.length > 0)
-// 			{ queryHolder.queryType.push(req.query.name)}
-// 	}
-// 	checkQuery();
-// };
-/**
- * Product middleware
- */
-// exports.productBySearch = function(req, res, next, searchQuery) { Product.where('name', saerchQuery).populate('user', 'displayName').exec(function(err, result) {
-// 		if (err) return next(err);
-// 		if (! result) return next(new Error('Failed to load Product ' + searchQuery));
-// 		req.product = product;
-// 		next();
-// 	});
-// };
 /**
  * Product authorization middleware
  */

@@ -19,7 +19,7 @@ angular.module('products').config(['$stateProvider',
 		}).
 		state('viewcatProduct', {
 			url: '/products/Categories/:catName',
-			templateUrl: 'modules/products/views/view-categories.client.view.html'
+			templateUrl: 'modules/products/views/categories-product.client.view.html'
 		}).
 		state('myProducts',{
 			url: '/products/myProducts',

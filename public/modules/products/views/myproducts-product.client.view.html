@@ -1,9 +1,9 @@
 <section data-ng-controller="ProductsController" data-ng-init="find()">
-    <div class="page-header">
+    <div class="page-header" class = "container">
         <h1>My Products</h1>
-    </div>
-    <div class="list-group">
-        <a data-ng-repeat="product in products" data-ng-href="#!/products/{{product._id}}" class="list-group-item"data-ng-show="authentication.user._id == product.user._id">
+    <div class="list-group" class="row">
+        <a data-ng-repeat="product in products" data-ng-href="#!/products/{{product._id}}" class="proddiv list-group-item col-xs-6 col-sm-4 col-md-3"data-ng-show="authentication.user._id == product.user._id" >
+            <img ng-src="{{product.photo}}"  class = "img-thumbnail img-thumbnailsize"><br>
 			<small class="list-group-item-text">
 				Posted on
 				<span data-ng-bind="product.created | date:'medium'"></span>
@@ -16,4 +16,5 @@
     <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
     	No Products yet, why don't you <a href="/#!/products/create">create one</a>?
     </div>
+ </div>
 </section>

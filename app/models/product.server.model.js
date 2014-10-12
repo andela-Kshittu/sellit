@@ -57,19 +57,35 @@ var ProductSchema = new Schema({
 	category:{
 		type: String,
 		default:'',
-		trim: true
+		trim: true,
+		required: 'Please select a category'
 	},
-	comments:{
-
+	likes: {type: Number, 
+			default: 0,
+		},
+	likesView: {
+		type: String,
+		default: 'true'
 	},
-	likes:{
-		type: Number,
-		default: 0,
-	},
+  	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
+	},
+	// comment: {
+	// 	type: Schema.ObjectId,
+	// 	ref: 'Comment'
+	// }
 });
+ProductSchema.methods.like = function(cb) {
+  this.likes += 1;
+  this.likesView = false;
+  this.save(cb);
+};
+ProductSchema.methods.dislike = function(cb) {
+  this.likes -= 1;
+  this.likesView = true;
+  this.save(cb);
+};
 
 mongoose.model('Product', ProductSchema);

@@ -5,11 +5,61 @@
     <div class="col-md-12">
         <form class="form-horizontal" data-ng-submit="update()" novalidate>
             <fieldset>
-                <div class="form-group">
+             <div class="form-group">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
                         <input type="text" data-ng-model="product.name" id="name" class="form-control" placeholder="Name" required>
                     </div>
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea data-ng-model="product.description" id="description" class="form-control" placeholder="Description" required></textarea>
+                    </div>
+                    <label class="control-label" for="category">Product Category</label>
+                    <div>
+                    <select id = "category" data-ng-model="product.category" id="category" class="form-control" placeholder="Select One" required>
+                        <option>Phones and Tablets</option>
+                        <option>Laptops</option>
+                        <option>Fashion and Designs</option>
+                        <option>Real Estate</option>
+                        <option>Vehicles</option>
+                        <option>Others</option>
+                    </select>
+                    </div>
+                    <label class="control-label" for="negotiable">Negotiable</label>
+                    <div>
+                    <select id = "negotiable" data-ng-model="product.negotiable" id="negotiable" class="form-control" placeholder="Select One" required>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+                    </div>
+                     <label class="control-label" for="cost">Cost</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="product.cost" id="cost" class="form-control" placeholder="Cost" required>
+                    </div>
+                     <label class="control-label" for="quantity">Quantity</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="product.quantity" id="quantity" class="form-control" placeholder="Quantity" required>
+                    </div>
+
+                    <label class="control-label" for="photo">Product Photo Upload</label>
+                    <div class="controls">
+                        <input type="file" ng-file-select="onFileSelect($files)">
+                          <div class="progress" style="margin-top: 20px;">
+                            <div class="progress-bar" progress-bar="uploadProgress" role="progressbar">
+                              <span ng-bind="uploadProgress"></span>
+                              <span>%</span>
+                            </div>
+                          </div>
+                    </div>
+                    <label class="control-label" for="location">Location</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="product.location" id="location" class="form-control" placeholder="Your Address" required>
+                    </div>
+                     <label class="control-label" for="phone_number">Phone Number</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="product.phone_number" id="phone_number" class="form-control" placeholder="Your Phone Number" required>
+                    </div>
+
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Update" class="btn btn-default">

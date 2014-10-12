@@ -13,3 +13,44 @@
 .ng-valid.ng-dirty{
     border-color:#78FA89;
 }
+.img-thumbnailsize{
+	min-width: 32%;
+	max-height: 200px;
+	min-height: 200px;
+	background: rgba(0,0,0,.3);
+}
+.img-thumbnailsize2{
+	min-width: 32%;
+	max-height: 500px;
+	min-height: 500px;
+	background: rgba(0,0,0,.3);
+}
+.home{
+	background:#3b291f;
+}
+.proddiv{
+	background:tomato;
+	border: 5px solid rgb(250, 255, 189);
+
+	/*margin: 5px 5px;*/
+}
+.proddiv2{
+	background: #f1e05a;
+	border: 5px solid rgb(250, 255, 189);
+
+	/*margin: 5px 5px;*/
+}
+
+/*#5bc0de*/
+/*#419641*/
+.homebody{
+	background:rgb(250, 255, 189);
+}
+.headtext{
+	color: tomato;
+	/*text-decoration: none;
+	vertical-align: middle;*/
+}
+.headtext:hover{
+	color:rgb(250, 255, 189) ;
+}

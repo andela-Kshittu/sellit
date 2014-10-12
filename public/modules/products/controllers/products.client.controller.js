@@ -2,42 +2,106 @@
 
 var app = angular.module('products');
 
-app.factory('Comments',[function(){
+app.factory('Prods',['$http',function($http){
 	var o = {
-		comments:[]
+		prods:[]
 	};
-	return o;
+o.like = function(product) {
+  return $http.put('/products/' + product._id + '/like')
+    .success(function(data){
+      product.likes += 1;
+      product.likesView = false;
+    });};
+o.dislike = function(product) {
+  return $http.put('/products/' + product._id + '/dislike')
+    .success(function(data){
+      product.likes -= 1;
+      product.likesView = true;
+    });};
+o.addComment = function(id, comment) {
+  return $http.post('/products/' + id + '/comments', comment);
+};
+o.likeComment = function(product, comment) {
+  return $http.put('/products/' + product._id + '/comments/'+ comment._id + '/like')
+    .success(function(data){
+      comment.likes += 1;
+      comment.likesView = false;
+    });
+};
+o.dislikeComment = function(product, comment) {
+  return $http.put('/products/' + product._id + '/comments/'+ comment._id + '/dislike')
+    .success(function(data){
+      comment.likes -= 1;
+      comment.likesView = true;
+    });
+};
+  return o;
 }]);
 // Products controller
-app.controller('ProductsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Products', '$upload','Comments',
-	function($scope, $stateParams, $location, Authentication, Products, $upload, Comments ) {
+app.controller('ProductsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Products', '$upload','Prods',
+	function($scope, $stateParams, $location, Authentication, Products, $upload, Prods ) {
 		$scope.authentication = Authentication;
 
-		$scope.categoryList = [{"name":"Phones and Tablets"},
-							   {"name":"Laptops"},
-							   {"name":"Fashion and Designs"},
-							   {"name":"Real Estate"},
-							   {"name":"Vehicles"},
-							   {"name":"Others"}];
+		$scope.categoryList = [{"name":"Phones and Tablets","src": "modules/core/img/server/Temp/img/phones-icons.jpg"},
+							   {"name":"Laptops","src": "modules/core/img/server/Temp/img/laptops.jpg"},
+							   {"name":"Fashion and Designs","src": "modules/core/img/server/Temp/img/fashion.jpg"},
+							   {"name":"Real Estate","src": "modules/core/img/server/Temp/img/house.jpg"},
+							   {"name":"Vehicles","src": "modules/core/img/server/Temp/img/vehicles.jpg"},
+							   {"name":"Others","src": "modules/core/img/server/Temp/img/others.jpg"}];
         $scope.selectedFile = [];
         $scope.uploadProgress = 0;
         $scope.searchQuery;
         $scope.currentCat = $stateParams.catName;
+        $scope.body;
+        $scope.author;
+        $scope.formShow = false;
+        // $scope.prods = Prods.prods;
+        $scope.commentForm = function(){
+        	$scope.formShow = true;
+        };
+        $scope.incrementUpvotes = function(product) {
+  			Prods.like(product);
+		};
+		$scope.decrementUpvotes = function(product) {
+  			Prods.dislike(product);
+		};
+		$scope.incrementCommentUpvotes = function(product, comment){
+			console.log('fucntion called');
+  			Prods.likeComment(product, comment);
+		};
+		$scope.decrementCommentUpvotes = function(product, comment){
+			console.log('fucntion called');
+  			Prods.dislikeComment(product, comment);
+		};
+
+		$scope.addComment = function(product){
+		$scope.formShow = false;
+  		if(($scope.body === '')||($scope.author === '')){ return; }
+  			Prods.addComment(product._id, {
+    		body: $scope.body,
+    		author:$scope.author,
+  		}).success(function(comment) {
+    		// $scope.post.comments.push(comment);
+    		$scope.findOne();
+  		});
+  		$scope.body = '';
+  		$scope.author = '';
+		};
         // client side comments and likes
-        $scope.comments = Comments.comments;
-        $scope.post;
+        // $scope.comments = Comments.comments;
+        // $scope.post;
         // $scope.likeButton = true;
         // $scope.postLikes = 0;
-        $scope.addComment = function(product, user){
-        	if($scope.post === '') { return; }
-        	$scope.comments.push({productID: product, post: $scope.post, like: 0, showlike:true});
-        	console.log($scope.comments);
-        	$scope.post="";
-        };
-       $scope.likePost=function(comment){
-       		comment.like += 1;
-       		comment.showlike = false;
-       };
+       //  $scope.addComment = function(product, user){
+       //  	if($scope.post === '') { return; }
+       //  	$scope.comments.push({productID: product, post: $scope.post, like: 0, showlike:true});
+       //  	console.log($scope.comments);
+       //  	$scope.post="";
+       //  };
+       // $scope.likePost=function(comment){
+       // 		comment.like += 1;
+       // 		comment.showlike = false;
+       // };
 		// Create new Product
 		$scope.create = function() {
 			// Create new Product object
@@ -145,7 +209,7 @@ app.controller('ProductsController', ['$scope', '$stateParams', '$location', 'Au
 		// };
 	}
 ])
-.directive('progressBar', [
+app.directive('progressBar', [
         function () {
             return {
                 link: function ($scope, el, attrs) {

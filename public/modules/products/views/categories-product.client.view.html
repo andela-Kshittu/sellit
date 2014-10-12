@@ -1,13 +1,58 @@
-<section data-ng-controller="ProductsController">
-<div class="page-header">
+<section data-ng-controller="ProductsController" class="col-xs-5 col-sm-3 col-md-2">
+<div class="">
         <h1>Categories</h1> 
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="cat in categoryList" data-ng-href="#!/products/Categories/{{cat.name}}" class="list-group-item">
+    <div class="list-group ">
+        <a data-ng-repeat="cat in categoryList" data-ng-href="#!/products/Categories/{{cat.name}}" class="list-group-item proddiv2">
 			<small class="list-group-item-text">
-				<span data-ng-bind="cat.name"></span>
+				<img ng-src="{{cat.src}}"><h4><b><span data-ng-bind="cat.name"></span></b></h4>
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
         </a>
     </div>
 </section>
+<section data-ng-controller="ProductsController" data-ng-init="find()" class="col-xs-7 col-sm-9 col-md-10">
+    <div class="" class = "container">
+        <h1>{{currentCat}}</h1>
+   
+    <div class="list-group" data-ng-repeat="product in products"class="row">
+        <a  data-ng-href="#!/products/{{product._id}}" class="proddiv list-group-item col-xs-12 col-sm-6 col-md-4" data-ng="addLike()" 
+        data-ng-show="product.category == currentCat">
+        <img ng-src="{{product.photo}}"  class = "img-thumbnail img-thumbnailsize"><br>
+            <small class="list-group-item-text">
+                Posted on
+                <span data-ng-bind="product.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="product.user.displayName"></span>
+            </small>
+            <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4><br>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
+        No Products yet, why don't you <a href="/#!/products/create">create one</a>?
+    </div>
+     </div>
+</section>
+
+<!-- <section data-ng-controller="ProductsController" data-ng-init="find()" class="col-xs-9">
+    <div class="page-header">
+        <h1> Category Products</h1>
+        {{currentCat}}
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="product in products" data-ng-href="#!/products/{{product._id}}" class="list-group-item" data-ng-show="product.category == currentCat">
+            <span data-ng-bind="product.category"></span>
+            <small class="list-group-item-text">
+                Posted on
+                <span data-ng-bind="product.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="product.user.displayName"></span>
+            </small>
+            <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
+        No Products yet, why don't you <a href="/#!/products/create">create one</a>?
+    </div>
+</section>
+ -->
