@@ -3,70 +3,82 @@
         <h1>New Product</h1>
     </div>
     <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+        <form class="form-horizontal css-form" data-ng-submit="create()" name="userForm" role="form" autocomplete="off" novalidate>
             <fieldset>
                 <div class="form-group">
+                    <div class="col-md-6">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+                        <input type="text" name= "namefield"data-ng-model="name" id="name" class="form-control" placeholder="Name" required ng-minlength="4">
+                         <span data-ng-show="userForm.namefield.$error.minlength" class="help-block spanError">Product Name must be at least 4 characters long.</span>
                     </div>
                     <label class="control-label" for="description">Description</label>
                     <div class="controls">
-                        <textarea data-ng-model="description" id="description" class="form-control" placeholder="Description" required></textarea>
+                        <textarea data-ng-model="description" id="description" name="description" class="form-control" placeholder="Description" required ng-minlength="20"></textarea>
+                        <span data-ng-show="userForm.description.$error.minlength" class="help-block spanError">Product Description must be at least 20 characters long.</span>
                     </div>
                     <label class="control-label" for="category">Product Category</label>
                     <div>
-                    <select id = "category" data-ng-model="category" id="category" class="form-control" placeholder="Select One" required>
-                        <option>Phones and Tablets</option>
-                        <option>Laptops</option>
-                        <option>Fashion and Designs</option>
-                        <option>Real Estate</option>
-                        <option>Vehicles</option>
-                        <option>Others</option>
-                    </select>
+                        <select id="category" data-ng-model="category"  name ="category" class="form-control" placeholder="Select One" required>
+                            <option>Phones and Tablets</option>
+                            <option>Laptops</option>
+                            <option>Fashion and Designs</option>
+                            <option>Real Estate</option>
+                            <option>Vehicles</option>
+                            <option>Others</option>
+                        </select>
                     </div>
                     <label class="control-label" for="negotiable">Negotiable</label>
                     <div>
-                    <select id = "negotiable" data-ng-model="negotiable" id="negotiable" class="form-control" placeholder="Select One" required>
-                        <option>Yes</option>
-                        <option>No</option>
-                    </select>
+                        <select id="negotiable" name="negotiation" data-ng-model="negotiable" id="negotiable" class="form-control" placeholder="Select One" required>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
                     </div>
-                     <label class="control-label" for="cost">Cost</label>
+                    <label class="control-label" for="cost">Cost</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="cost" id="cost" class="form-control" placeholder="Cost" required>
+                        <input type="number" data-ng-model="cost" name ="cost" id="cost" class="form-control" placeholder="Cost" required integer>
+                        <span data-ng-show="userForm.cost.$error.integer" class="help-block spanError">Product Cost must be specified in Numbers </span>
                     </div>
-                     <label class="control-label" for="quantity">Quantity</label>
+                </div>
+                <div class="col-md-6">
+                    <label class="control-label" for="quantity" >Quantity</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="quantity" id="quantity" class="form-control" placeholder="Quantity" required>
+                        <input type="number" data-ng-model="quantity" id="quantity" class="form-control" placeholder="Quantity" required name ="quantity" integer>
+                         <span data-ng-show="userForm.quantity.$error.integer" class="help-block spanError">Product Quantity must be specified in Numbers </span>
                     </div>
 
                     <label class="control-label" for="photo">Product Photo Upload</label>
                     <div class="controls">
-                        <input type="file" ng-file-select="onFileSelect($files)">
-                          <div class="progress" style="margin-top: 20px;">
+                    <input type="file" ng-file-select="onFileSelect($files)" name="fileselect" required accept="image/*">
+                        <span class="spanError" ng-show="files && !correctFormat">Imge file only</span>
+
+                        <div class="progress" style="margin-top: 20px;">
                             <div class="progress-bar" progress-bar="uploadProgress" role="progressbar">
-                              <span ng-bind="uploadProgress"></span>
-                              <span>%</span>
+                                <span ng-bind="uploadProgress"></span>
+                                <span>%</span>
                             </div>
-                          </div>
+                        </div>
                     </div>
                     <label class="control-label" for="location">Location</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="location" id="location" class="form-control" placeholder="Your Address" required>
+                        <input type="text" data-ng-model="location" name="location"  ng-minlength="2" id="location" class="form-control" placeholder="Your Address" required>
+                        <span data-ng-show="userForm.location.$error.minlength" class="help-block spanError">Invalid Location</span>
                     </div>
-                     <label class="control-label" for="phone_number">Phone Number</label>
+                    <label class="control-label" for="phone_number">Phone Number</label>
                     <div class="controls">
-                        <input type="text" data-ng-model="phone_number" id="phone_number" class="form-control" placeholder="Your Phone Number" required>
+                        <input type="text" data-ng-model="phone_number" name="Phone_num" id="phone_number" class="form-control" placeholder="Your Phone Number" ng-minlength="7" ng-maxlength="11" required integer>
+                        <span data-ng-show="userForm.Phone_num.$error.minlength || userForm.Phone_num.$error.maxlength" class="help-block spanError">Valid Phone Number must be specified</span>
+                        <span data-ng-show="userForm.Phone_num.$error.integer" class="help-block spanError">Phone Number must be in numbers </span>
+                        <br><br>
                     </div>
-
+                    <input type="submit" class="btn searchbtn" ng-disabled="userForm.namefield.$invalid || userForm.category.$invalid || userForm.description.$invalid || userForm.negotiation.$invalid || userForm.cost.$invalid || userForm.quantity.$invalid || userForm.location.$invalid || userForm.Phone_num.$invalid || userForm.fileselect.$invalid||userForm.fileselect.$error||!correctFormat||!files">
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default">
                 </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
+               
+        </div>
             </fieldset>
         </form>
     </div>

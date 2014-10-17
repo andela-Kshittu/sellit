@@ -24,7 +24,7 @@ var ProductSchema = new Schema({
 		type: String,
 		default: '',
 		trim: true,
-		required: 'Description cannot be blank'
+		required: 'Product Image is needed'
 	},
 	photo: {
 		type: String,
@@ -72,19 +72,15 @@ var ProductSchema = new Schema({
 		type: Schema.ObjectId,
 		ref: 'User'
 	},
-	// comment: {
-	// 	type: Schema.ObjectId,
-	// 	ref: 'Comment'
-	// }
 });
 ProductSchema.methods.like = function(cb) {
   this.likes += 1;
-  this.likesView = false;
+  // this.likesView = false;
   this.save(cb);
 };
 ProductSchema.methods.dislike = function(cb) {
   this.likes -= 1;
-  this.likesView = true;
+  // this.likesView = true;
   this.save(cb);
 };
 

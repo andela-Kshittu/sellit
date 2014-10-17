@@ -24,7 +24,7 @@ module.exports = function(app) {
 		.post(products.comments);
 	
 	app.route('/products/:productId/comments/:commentId')
-		.get(products.readComment)
+		// .get(products.readComment)
 		.put(users.requiresLogin, products.hasAuthorization, products.updateComment);
 	
 	app.route('/products/:productId/comments/:commentId/like')
@@ -33,11 +33,7 @@ module.exports = function(app) {
 		.put(products.commentdisLike);
 
 	app.route('/search').get(products.search);
-	// app.route('/products/Categories/:catName')
-	// 	.get(products.getCategories);
-
 	// Finish by binding the Product middleware
 	app.param('productId', products.productByID);
 	app.param('commentId', products.commentByID);
-	// app.param('catName', products.productByCAT);
 };

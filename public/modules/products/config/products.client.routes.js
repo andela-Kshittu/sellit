@@ -32,6 +32,10 @@ angular.module('products').config(['$stateProvider',
 		state('editProduct', {
 			url: '/products/:productId/edit',
 			templateUrl: 'modules/products/views/edit-product.client.view.html'
+		}).
+		state('search', {
+			url: '/search',
+			templateUrl: 'modules/products/views/view-search.client.view.html'
 		});
 	}
 ]);

@@ -1,76 +1,87 @@
 <section data-ng-controller="ProductsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="product.name"></h1>
-			<div class="pull-right">
-		<h1 >Product Details</h1><br>
-		<cite><b>Description: {{product.description}}</b></cite><br>
-		<cite><b>Cost: ${{product.cost}}</b></cite><br>
-		<cite><b>Negotiable: {{product.negotiable}}</b></cite><br>
-		<cite><b>Quantity Available: {{product.quantity}}</b></cite><br>
-		<cite><b>Seller's Number: {{product.phone_number}}</b></cite><br>
-		<cite><b>Seller's Location: {{product.location}}</b></cite><br>
-	</div>
-		<img ng-src="{{product.photo}}"  class = "img-thumbnail img-thumbnailsize2">
-	</div>
-	<div  data-ng-show="authentication.user._id == product.user._id">
-		<a class="btn btn-info" href="/#!/products/{{product._id}}/edit">
+    <div class="page-header prodDetails">
+        <h3 data-ng-bind="product.name"></h3>
+        <div class="pull-right prodDetails">
+            <h3>Product Details</h3>
+            <br>
+         <div class="prodDetailsbody">
+            <cite><b>Description: &nbsp{{product.description}}</b>
+            </cite>
+            <br>
+            <cite><b>Cost: &nbspN{{product.cost}}</b>
+            </cite>
+            <br>
+            <cite><b>Negotiable: &nbsp{{product.negotiable}}</b>
+            </cite>
+            <br>
+            <cite><b>Quantity Available: &nbsp{{product.quantity}}</b>
+            </cite>
+            <br>
+            <cite><b>Seller's Number: &nbsp{{product.phone_number}}</b>
+            </cite>
+            <br>
+            <cite><b>Seller's Location: &nbsp{{product.location}}</b>
+            </cite>
+            <br>
+           </div>
+        </div>
+        <img ng-src="{{product.photo}}" class="img-thumbnail img-thumbnailsize2 img-responsive">
+    </div>
+    <div data-ng-show="authentication.user._id == product.user._id" class="commentText">
+        <a class="btn btn-info" href="/#!/products/{{product._id}}/edit">
 			Edit:<i class="glyphicon glyphicon-edit"></i>
 		</a>&nbsp
-		<a class="btn btn-danger" data-ng-click="remove();">
+        <a class="btn btn-danger" data-ng-click="remove();">
 			Delete:<i class="glyphicon glyphicon-trash"></i>
 		</a>
-	</div><br>
-	<div>
-		<a class="btn btn-success" data-ng-click="commentForm()" data-ng-hide="formShow">
+    </div>
+    <br>
+    <div class="commentText">
+        <a class="btn btn-success" data-ng-click="commentForm()" data-ng-hide="formShow">
 			Comment:<i class="glyphicon glyphicon-comment"></i>
 		</a>&nbsp
-		<a class="btn btn-success" data-ng-click="incrementUpvotes(product)" data-ng-show="product.likesView">
+        <a class="btn btn-success" data-ng-click="incrementUpvotes(product)" data-ng-show="product.likesView">
 			Like:<i class="glyphicon glyphicon-thumbs-up"></i>
 		</a>
-		<a class="btn btn-danger" data-ng-click="decrementUpvotes(product)" data-ng-hide="product.likesView">
+        <a class="btn btn-danger" data-ng-click="decrementUpvotes(product)" data-ng-hide="product.likesView">
 			Unlike:<i class="glyphicon glyphicon-thumbs-down"></i>
 		</a>
-	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="product.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="product.user.displayName"></span>
-		<!-- 	<div data-ng-repeat="prod in prods"> -->
-				<!-- <span class="btn btn-primary"  ng-click="incrementUpvotes(product)">like</span>	
-				<a class="btn btn-primary" data-ng-click="incrementUpvotes(product)">
-					<i class="glyphicon glyphicon-thumbs-up"></i>
-				</a> -->
-			 	Like(s): {{product.likes}}
-			 	<!-- <span><a href="/#!/products/{{product._id}}/">Add Comment</a></span> -->
-			 	<br>
-	<form data-ng-submit="addComment(product)" data-ng-show="formShow" class="form-horizontal">
-		<label>Author:&nbsp</label><input type="text" data-ng-model="author" class="input-group"><br>
-		<label>Body:&nbsp</label><textarea data-ng-model="body" class="input-group"></textarea><br>
-		<input class="btn btn-success btn-lg" type="submit" value="Add Comment">
-	</form><br><br>
-		<!-- 	</div> -->
-		<span data-ng-repeat="comment in product.comments">
-		Author:&nbsp{{comment.author}}<br>
-		Comment:&nbsp{{comment.body}}<br>
-		<a class="btn btn-success" data-ng-click="incrementCommentUpvotes(product, comment)"data-ng-show="comment.likesView">
+    </div>
+    <small class="commentText">
+        <em>
+            Posted on
+            <span data-ng-bind="product.created | date:'mediumDate'"></span>
+            by
+            <span data-ng-bind="product.user.displayName"></span>
+            Like(s): {{product.likes}}
+            <br>
+            <form data-ng-submit="addComment(product)" data-ng-show="formShow" class="form-horizontal">
+                <label>Author:&nbsp</label>
+                <input type="text" data-ng-model="author" class="input-group">
+                <br>
+                <label>Comment:&nbsp</label>
+                <textarea data-ng-model="body" class="input-group"></textarea>
+                <br>
+                <input class="btn btn-success btn-lg" type="submit" value="Add Comment">
+            </form>
+            <br>
+            <br>
+            <div class="comments col-md-4 col-xs-12 col-sm-5 col-lg-5" >
+            <span data-ng-repeat="comment in product.comments">
+                Author:&nbsp{{comment.author}}
+                <br>Comment:&nbsp{{comment.body}}
+                <br>
+                <a class="btn btn-success" data-ng-click="incrementCommentUpvotes(product, comment)" data-ng-show="comment.likesView">
 			Like:<i class="glyphicon glyphicon-thumbs-up"></i>
 		</a>
-		<a class="btn btn-danger" data-ng-click="decrementCommentUpvotes(product, comment)"data-ng-hide="comment.likesView">
+                <a class="btn btn-danger" data-ng-click="decrementCommentUpvotes(product, comment)" data-ng-hide="comment.likesView">
 			Unlike:<i class="glyphicon glyphicon-thumbs-down"></i>
 		</a>
-		<p>Like(s):&nbsp{{comment.likes}} </p><br><br> <!-- {{comment.likes}} -->
-		</span>
-		</em>
-	</small>
-	<!-- <form data-ng-submit="addComment(product._id)">
-		<textarea data-ng-model="post"></textarea>
-		<input type="submit" value="Add Comment">
-	</form>
-	<div data-ng-repeat="comment in comments" data-ng-show="product._id == comment.productID">
-		<span>{{comment.post}}</span>
-		<input type="button" value="like" data-ng-click="likePost(comment)" data-ng-show="comment.showlike">
-		<span>&nbsp{{comment.like}} like(s)</span>
-	</div> -->
+                <p>Like(s):&nbsp{{comment.likes}}</p>
+                <br>
+                <br>
+            </span>
+           </div>
+        </em>
+    </small>
 </section>

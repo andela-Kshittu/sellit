@@ -1,99 +1,79 @@
 <section data-ng-controller="HomeController">
-<!-- 	<div class="jumbotron text-center">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-				<img alt="MEAN.JS" class="img-responsive text-center" src="modules/core/img/brand/logo.png" />
-			</div>
-			<div data-ng-controller="ProductsController">
-				<form class="form-vertical" data-ng-submit="find()">
-				<input type="text" data-ng-model="searchQuery">&nbsp<input type="submit">
-				</form>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<p class="lead">
-				Open-Source Full-Stack Solution For MEAN Applications
-			</p>
-		</div>
-		<div class="row">
-			<p>
-				<a class="btn btn-primary btn-lg" href="http://meanjs.org" target="_blank">Learn more</a>
-			</p>
-		</div>
-	</div>
-	<div>
-		<h2>Congrats! You've configured and run the sample application.</h2>
-		<p>MEAN.JS is a web application boilerplate, which means you should start changing everything :-)</p>
-		<p>This sample application tracks users and articles.</p>
-		<ul>
-			<li>
-				Click
-				<em>Signup</em>
-				to get started.
-			</li>
-			<li>
-				Configure your app to work with your social accounts, by editing the
-				<em>/config/env/*.js</em>
-				files.
-			</li>
-			<li>
-				Edit your users module.
-			</li>
-			<li>
-				Add new CRUD modules.
-			</li>
-			<li>
-				Have fun...
-			</li>
-		</ul>
-	</div>
-	<div class="row">
-		<div class="col-md-3">
-			<h2>
-				<strong>M</strong>ongoDB
-			</h2>
-			<p><a target="_blank" href="http://mongodb.org/">MongoDB</a> is a database. MongoDB's <a target="_blank" href="http://docs.mongodb.org/manual/">great manual</a> is the place to get started with NoSQL and MongoDB.</p>
-		</div>
-		<div class="col-md-3">
-			<h2>
-				<strong>E</strong>xpress
-			</h2>
-			<p><a target="_blank" href="http://expressjs.com/"> Express</a> is an app server. Check out <a target="_blank" href="http://expressjs.com/guide.html">The Express Guide</a> or <a target="_blank" href="http://stackoverflow.com/questions/8144214/learning-express-for-node-js">StackOverflow</a> for more info.</p>
-		</div>
-		<div class="col-md-3">
-			<h2>
-				<strong>A</strong>ngularJS
-			</h2>
-			<p>AngularJS is web app framework. <a target="_blank" href="http://angularjs.org/">Angular's website</a> offers a lot. The <a target="_blank" href="http://www.thinkster.io/">Thinkster Popular Guide</a> and <a target="_blank" href="https://egghead.io/">Egghead Videos</a> are great resources.</p>
-		</div>
-		<div class="col-md-3">
-			<h2>
-				<strong>N</strong>ode.js
-			</h2>
-			<p><a target="_blank" href="http://nodejs.org/">Node.js</a> is a web server. Node's website and this <a target="_blank" href="http://stackoverflow.com/questions/2353818/how-do-i-get-started-with-node-js">stackOverflow thread</a> offer excellent starting points to get to grasps with node.</p>
-		</div>
-	</div>
-	<div class="well">
-		<h2>MEAN.JS Documentation</h2>
-		<p>
-			Once you're familiar with the foundation technology, check out the MEAN.JS Documentation:
-			<ul>
-				<li><a target="_blank" href="http://meanjs.org/docs.html">MEAN.JS Documentation</a>
-				</li>
-				<li><a target="_blank" href="http://meanjs.org/generator.html">Yeoman Generator</a>
-				</li>
-				<li><a target="_blank" href="http://meanjs.org/modules.html">Modules</a>
-				</li>
-				<li><a target="_blank" href="http://meanjs.org/changelog.html">Changelog</a>
-				</li>
-				<li><a target="_blank" href="http://meanjs.org/community.html">Community</a>
-				</li>
-				<li><a target="_blank" href="http://blog.meanjs.org">Blog</a>
-				</li>
-			</ul>
-		</p>
-	</div>
-	<br>Enjoy &amp; Keep Us Updated,
-	<br>The MEAN.JS Team. -->
+    <div class="jumbotron text-center homejum">
+        <section data-ng-controller="ProductsController" class="pull-right">
+        	<div class="searchDiv">
+            	<form class="form-inline" name="searchForm">
+                	<fieldset>
+	                    <input class="form-control" name="queryfield" type="text" data-ng-model="userQuery" placeholder="Search" required/>
+	                    <select class="form-control" data-ng-model="myform" required validate data-ng-options='option.value as option.name for option in typeOptions'></select>
+	                    <a data-ng-click="search()">
+	                        <button class="btn searchbtn" data-ng-disabled="searchForm.queryfield.$invalid">
+	                        <i class="glyphicon glyphicon-search"></i>
+	                        </button>
+	                    </a>
+                	</fieldset>
+            	</form>
+            </div><br>
+            <div class="homeAD pull-right">
+                <h4>Welcome to Sell-It.com</h4>
+                    <p>Best Online Product Advertising Application</p>
+                    <p>Designed to make life easier for buyers and sellers</p>
+                    <p>Upload your Products now and start receiving calls from Buyers..</p>
+                    <p>Its that easy, <a href="" data-ng-click="nowRedirect()" >SELL IT NOW...!!!</a></p>
+            </div>
+        </section>
+        <h1 data-ng-controller="ProductsController">
+            <img src="modules/core/sellit.png">
+            <span class="logoText">ell It...</span><input type="button" class="nowBtn" value="Now" data-ng-click="nowRedirect()"></input>
+        </h1>
+    </div>
+    <div class="bs-example" data-ng-controller="ProductsController" data-ng-init="find()">
+        <div id="myCarousel" class="carousel slide" data-interval="2000" data-ride="carousel">
+            <!-- Carousel indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="active item">
+                    <div data-ng-repeat="product in products|limitTo:3">
+                        <a data-ng-href="#!/products/{{product._id}}" class="proddiv list-group-item col-xs-12 col-sm-6 col-md-4" data-ng="addLike()">
+                            <img ng-src="{{product.photo}}" class="img-thumbnail img-thumbnailsize">
+                        </a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div data-ng-repeat="product in products|limitTo:6" data-ng-if="$index > 2">
+                        <a data-ng-href="#!/products/{{product._id}}" class="proddiv list-group-item col-xs-12 col-sm-6 col-md-4" data-ng="addLike()">
+                            <img ng-src="{{product.photo}}" class="img-thumbnail img-thumbnailsize">
+                        </a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div data-ng-repeat="product in products|limitTo:9" data-ng-if="$index > 5">
+                        <a data-ng-href="#!/products/{{product._id}}" class="proddiv list-group-item col-xs-12 col-sm-6 col-md-4" data-ng="addLike()">
+                            <img ng-src="{{product.photo}}" class="img-thumbnail img-thumbnailsize">  
+                        </a>
+                    </div>
+                </div>
+             </div>
+            <!-- Carousel nav -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+      <script>
+  !function ($) {
+    $(function(){
+      // carousel demo
+      $('#myCarousel').carousel()
+    })
+  }(window.jQuery)
+</script>
+    </div>
 </section>

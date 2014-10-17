@@ -1,56 +1,183 @@
+/*DEFAULT*/
 .content {
-	margin-top: 50px;
+    margin-top: 50px;
 }
 .undecorated-link:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
+    display: none !important;
 }
-.ng-invalid.ng-dirty{
-    border-color:#FA787E;
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
 }
-.ng-valid.ng-dirty{
-    border-color:#78FA89;
+.ng-valid.ng-dirty {
+    border-color: #78FA89;
 }
-.img-thumbnailsize{
-	min-width: 32%;
-	max-height: 200px;
-	min-height: 200px;
-	background: rgba(0,0,0,.3);
+/*PRODUCT IMAGE DISPLAY*/
+.img-thumbnailsize {
+    min-width: 32%;
+    max-height: 200px;
+    min-height: 200px;
+    background: rgba(0, 0, 0, .3);
 }
-.img-thumbnailsize2{
-	min-width: 32%;
-	max-height: 500px;
-	min-height: 500px;
-	background: rgba(0,0,0,.3);
-}
-.home{
-	background:#3b291f;
-}
-.proddiv{
-	background:tomato;
-	border: 5px solid rgb(250, 255, 189);
-
-	/*margin: 5px 5px;*/
-}
-.proddiv2{
-	background: #f1e05a;
-	border: 5px solid rgb(250, 255, 189);
-
-	/*margin: 5px 5px;*/
+.img-thumbnailsize2 {
+    max-width: 50%;
+    min-width: 50%;
+    max-height: 350px;
+    min-height: 350px;
+    background: rgba(0, 0, 0, .3);
 }
 
-/*#5bc0de*/
-/*#419641*/
-.homebody{
-	background:rgb(250, 255, 189);
+/*FIXED HEADER AND ITS DIV CONTAINER*/
+.homeHead {
+    background: rgba(255, 255, 255, .3);
+    border-radius: 5px;
+    max-width: 80%;
+    margin: auto auto;
+    box-shadow: 0px 0px 5px 5px white;
+    border: none;
 }
-.headtext{
-	color: tomato;
-	/*text-decoration: none;
-	vertical-align: middle;*/
+.homeHeaddiv {
+    max-width: 80%;
+    margin: auto auto;
+    background: url('../bg4.jpg');
 }
-.headtext:hover{
-	color:rgb(250, 255, 189) ;
+.headtext {
+    color: rgba(0, 0, 0, .8);
 }
+.headtext:hover {
+    color: tomato;
+}
+/*PRODUCT DETAILS DISPLAY*/
+.proddiv {
+    background: rgba(250, 255, 189, .6);
+    border: 5px solid #3b291f;
+}
+.proddiv2 {
+    background: rgba(250, 255, 189, .6);
+    border: 5px solid #3b291f;
+}
+.comments{
+    border: 2px solid black;
+    background: rgba(255,255,255,.4);
+    border-radius: 15px;
+    padding: 5px 15px;
+}
+.commentText {
+   /* font-family: 'Dosis', sans-serif;*/
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    color: black;
+}S
+
+/*HOME PAGE BODY SECTIONS*/
+.homeSec {
+    height: 100%;
+}
+.homejum {
+    height: 100%;
+    background: rgba(255, 255, 255, .3);
+}
+.logoText, .nowBtn,.searchbtn{
+    font-family: 'Playball';
+    color: white;
+    text-shadow: 0px 0px 10px black;
+}
+.nowBtn {
+    background: url('../bg4.jpg');
+    border-radius: 20px;
+    font-size: 25px;
+    width: 150px;
+    height: 50px;
+
+}
+.searchbtn{
+    background: url('../bg4.jpg');
+    border: 2px solid white;
+    font-size: 20px;
+    text-decoration: none;
+}
+/*SEARCH BOX DIV DESIGN*/
+.searchDiv{
+    width: 100%;
+    min-height: 50px; 
+    background: transparent;
+    padding-top: 6px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+.searchDiv input ,.searchDiv select{
+    background: rgba(0,0,0,.2);
+    color: white;
+    border: 2px solid black;
+}
+.nowBtn:hover,.searchbtn:hover,{
+    box-shadow: 0px 0px 10px white;
+}
+/*MAIN BODY*/
+.homebody {  
+    background: url('../bg18.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+.homeAD{
+    background: rgba(255,255,255,0.3);
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+.homeAD:hover{
+    background: rgba(255,255,255,0.5);
+}
+.homeAD p{
+    font-family: 'Libre Baskerville', serif;
+    font-size: 12px;
+    color: black;
+}
+.homeAD h4{
+    font-family: 'Dosis', sans-serif;
+    font-size: 20px;
+    text-decoration: underline;
+}
+
+.item {
+    text-align: center;
+    height: 300px !important;
+}
+/*CAROUSEL*/
+.carousel {
+    margin-top: 20px;
+}
+.bs-example {
+    margin: 20px;
+}
+.prodDetailsbody {
+     background: rgba(0,0,0,.4);
+    color: white;
+    border-radius: 5px;
+}
+.prodDetailsbody:hover{
+    background: black;
+}
+.prodDetails h3 {
+    font-family: 'Libre Baskerville', serif;
+    text-decoration: underline;
+    background: rgba(0,0,0,.7);
+    color: white;
+    border-radius: 5px;
+    text-shadow: 0px 0px 10px white;
+}
+.prodDetails cite {
+    font-family: 'Dosis', sans-serif;
+    font-size: 25px;
+}
+
+/*VALIDATION*/
+.spanError{
+    background: red;
+    color: white;
+}
+
+
+
