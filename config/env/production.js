@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/shop-quick',
+	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://heroku:t4zxElqT6qCPdAw4eykt5N9uVb15zsU2gddWQCezmD4V9SMK_UFmODt2e_IGqypaPorHTblJzmeLTh1VGaDS9g',
 	assets: {
 		lib: {
 			css: [
