@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/shop-quick-dev',
+	db: 'mongodb://heroku:t4zxElqT6qCPdAw4eykt5N9uVb15zsU2gddWQCezmD4V9SMK_UFmODt2e_IGqypaPorHTblJzmeLTh1VGaDS9g',
 	app: {
 		title: 'Shop Quick - Development Environment'
 	},
