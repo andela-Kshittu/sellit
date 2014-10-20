@@ -178,6 +178,11 @@
     background: red;
     color: white;
 }
-
+.tab> .active > a, 
+.tab> .active > a:hover, 
+.tab > .active > a:focus
+{
+    background: white !important;
+}
 
 
