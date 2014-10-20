@@ -41,7 +41,7 @@
 .homeHeaddiv {
     max-width: 80%;
     margin: auto auto;
-    background: url('../bg4.jpg');
+    background: url('/modules/core/bg4.jpg');
 }
 .headtext {
     color: rgba(0, 0, 0, .8);
@@ -114,7 +114,7 @@
     color: white;
     border: 2px solid black;
 }
-.nowBtn:hover,.searchbtn:hover,{
+.nowBtn:hover,.searchbtn:hover{
     box-shadow: 0px 0px 10px white;
 }
 /*MAIN BODY*/
