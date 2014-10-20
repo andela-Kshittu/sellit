@@ -1,8 +1,8 @@
 'use strict';
 var app = angular.module('products');
 // Products controller
-app.controller('ProductsController', ['$scope', '$stateParams', '$http', '$location', 'Authentication','Products', '$upload', 'Prods',
-    function($scope, $stateParams, $http, $location, Authentication, Products, $upload, Prods) {
+app.controller('ProductsController', ['$scope', '$stateParams', '$timeout' , '$http', '$location', 'Authentication','Products', '$upload', 'Prods',
+    function($scope, $stateParams, $timeout , $http, $location, Authentication, Products, $upload, Prods){
         $scope.authentication = Authentication;
         $scope.categoryList = [{
             "name": "Phones and Tablets",
@@ -53,8 +53,8 @@ app.controller('ProductsController', ['$scope', '$stateParams', '$http', '$locat
         $scope.myform = $scope.typeOptions[0].value;
         $scope.searchData = Prods.prods;
         $scope.nosearchData = Prods.noSearchData;
-         $scope.closeAlert = function() { 
-  };
+  //        $scope.closeAlert = function() { 
+  // };
         $scope.search = function() {
             $http.get('/search/?' + $scope.myform + '=' + $scope.userQuery)
                 .success(
@@ -119,16 +119,11 @@ app.controller('ProductsController', ['$scope', '$stateParams', '$http', '$locat
                     cost: this.cost,
                     location: this.location,
                     phone_number: this.phone_number,
+                    photo: $scope.uploadResult
                 });
-                $scope.upload = $upload.upload({
-                    url: 'products/',
-                    method: 'POST',
-                    data: product,
-                    file: $scope.files[0]
-                }).progress(function(evt) {
-                    $scope.uploadProgress = parseInt(100.0 * evt.loaded / evt.total, 10);
-                }).success(function(response) {
-                    $location.path('products/' + response._id);
+
+product.$save(function(response) {
+                $location.path('products/' + response._id);
                     // Clear form fields
                     $scope.name = '';
                     $scope.description = '';
@@ -139,22 +134,74 @@ app.controller('ProductsController', ['$scope', '$stateParams', '$http', '$locat
                     $scope.cost = '';
                     $scope.location = '';
                     $scope.phone_number = '';
-                }).error(function(err, response) {
-                    $scope.error = response.message;
-                });
-        };
-        $scope.onFileSelect = function($files) {
-            $scope.uploadProgress = 0;
-            $scope.files = $files;
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
 
-            if ($scope.files) {
-                if ($scope.files[0].type === 'image/jpeg' || $scope.files[0].type === 'image/png') {
-                    $scope.correctFormat = true;
-                } else {
-                    $scope.correctFormat = false;
-                    alert('Wrong File Format Please Change the file.');
-                }
-            }
+
+ };
+$scope.onFileSelect = function($files) {
+$scope.files = $files;
+$scope.imageFiles = [];
+$scope.uploadResult = [];
+if($scope.files) {
+for (var i in $scope.files) {
+if($scope.files[i].type === 'image/jpeg' || $scope.files[i].type === 'image/png' || $scope.files[i].size < 600000) {
+$scope.correctFormat = true;
+} else {
+alert('error');
+alert('Wrong file format...')
+$scope.correctFormat = false;
+}
+$scope.start(i);
+
+}
+}
+};
+
+$scope.start = function(indexOftheFile) {
+$scope.loading = true;
+var formData = {
+key: $scope.files[indexOftheFile].name,
+AWSAccessKeyID: 'AKIAIWGDKQ33PXY36LQA',
+acl: 'private',
+policy: 'ewogICJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKICAiY29uZGl0aW9ucyI6IFsKICAgIHsiYnVja2V0IjogImtlaGVzamF5In0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRrZXkiLCAiIl0sCiAgICB7ImFjbCI6ICJwcml2YXRlIn0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiIl0sCiAgICBbInN0YXJ0cy13aXRoIiwgIiRmaWxlbmFtZSIsICIiXSwKICAgIFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLCAwLCA1MjQyODgwMDBdCiAgXQp9',
+signature: 'PLzajm+JQ9bf/rv9lZJzChPwiBc=',
+filename: $scope.files[indexOftheFile].name,
+'Content-Type':$scope.files[indexOftheFile].type
+};
+            
+$scope.imageFiles[indexOftheFile] = $upload.upload({
+                url: 'https://kehesjay.s3-us-west-2.amazonaws.com/',
+                method: 'POST',
+                headers: {
+                    'Content-Type':$scope.files[indexOftheFile].type
+                },
+                data: formData,
+                file: $scope.files[indexOftheFile]
+            });
+$scope.imageFiles[indexOftheFile].then(function(response) {
+                $timeout(function() {
+                    $scope.loading = false;
+                    //alert('uploaded');
+                    var imageUrl = 'https://kehesjay.s3-us-west-2.amazonaws.com/' + $scope.files[indexOftheFile].name;
+                    $scope.uploadResult.push(imageUrl);
+                });
+            }, function(response) {
+                console.log(response);
+                $scope.loading = false;
+                if (response.status > 0) $scope.errorMsg = response.status + ': ' + response.data;
+                alert('Connection Timed out');
+            }, function(evt) {
+                
+            });
+
+            console.log($scope.imageFiles[indexOftheFile]);
+
+$scope.imageFiles[indexOftheFile].xhr(function(xhr) {
+                //alert('xhr');
+            });
+            
         };
         $scope.nowRedirect = function(){
         	if ($scope.authentication.user){

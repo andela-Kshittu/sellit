@@ -15,102 +15,18 @@ var uuid = require('node-uuid'),
 
 var path = require('path'),
     fs = require('fs');
-
-
-var imageUpload = function(req, res, contentType, tmpPath, destPath, product) {
-    // Server side file type checker.
-    if (contentType !== 'image/png' && contentType !== 'image/jpeg') {
-        fs.unlink(tmpPath);
-        return res.send(400, {
-            message: 'Unsupported file type. Only jpeg or png format allowed'
-        });
-
-    } else
-        async.waterfall([
-                function(callback) {
-                    fs.readFile(tmpPath, function(err, data) {
-                        if (err) {
-                            var message = 'tmpPath doesn\'t exist.';
-                            return callback(message);
-                        }
-                        callback(null, data);
-                    });
-                },
-                function(data, callback) {
-
-                    fs.writeFile(destPath, data, function(err) {
-                        if (err) {
-                            var message = 'Destination path doesn\'t exists';
-                            return callback(message);
-                        }
-                        callback();
-                    });
-                },
-                function(callback) {
-                    fs.unlink(tmpPath);
-                }
-            ],
-            function(err, results) {
-                if (err) {
-                    res.send(500, {
-                        message: err
-                    });
-                }
-            }
-        );
-
-};
-
-/**
- * Create a Product
- */
 exports.create = function(req, res) {
-
-    var form = new multiparty.Form();
-
-    form.parse(req, function(err, fields, files) {
-        console.log(files);
-        var file = files.file[0];
-
-        if (err) {
-            res.send(500, {
-                message: err
-            });
-        }
-
-        if (files.file[0]) {
-            var contentType = file.headers['content-type'];
-            var tmpPath = file.path;
-            var extIndex = tmpPath.lastIndexOf('.');
-            var extension = (extIndex < 0) ? '' : tmpPath.substr(extIndex);
-            // uuid is for generating unique filenames. 
-            var fileName = uuid.v4() + extension;
-            var destPath = 'public/modules/core/img/server/Temp/' + fileName;
-            var realPath = 'modules/core/img/server/Temp/' + fileName;
-        }
-
-        var product = new Product(fields);
+    var product = new Product(req.body);
         product.user = req.user;
-        // var path = destPath.lastIndexOf('.');
-        // var passedPath= (path < 0) ? '' : destPath.substr(path);
-        // var photoPath = uuid.v4() + passedPath;
-        // product.photo = photoPath;
-        product.photo = realPath;
-
         product.save(function(err) {
             if (err) {
                 return res.status(400).send({
                     message: errorHandler.getErrorMessage(err)
                 });
             } else {
-
-                imageUpload(req, res, contentType, tmpPath, destPath, product);
-
                 res.jsonp(product);
             }
         });
-    });
-
 };
 
 /**
@@ -119,12 +35,6 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
     res.jsonp(req.product);
 };
-// exports.readComment = function(req, res) {
-// 	res.jsonp(req.comment);
-// };
-// exports.getCategories = function(req, res) {
-// 	res.jsonp(req.product);
-// };
 /**
  * Update a Product
  */

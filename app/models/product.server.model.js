@@ -28,7 +28,7 @@ var ProductSchema = new Schema({
 	},
 	photo: {
 		type: String,
-		required: 'Description cannot be blank'
+		required: 'image cannot be blank'
 	},
 	cost: {
 		type: String,
